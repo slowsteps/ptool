@@ -19,18 +19,17 @@
     },
     methods: {
 
-
     getSteps: function() {
-      //TODO change into onSnapShot
-      
-      this.localsteps = []
-
-      this.parent.steps_ref.where("blueprint","==",this.parent.selected_blueprint.id).get().then( 
-      	snap => { snap.forEach( doc => {
-      		this.localsteps.push(doc.data()) 
-      		} )}
-      	)
+      this.parent.steps_ref.where("blueprint","==",this.parent.selected_blueprint.id).onSnapshot( 
+        snap => { 
+          this.localsteps = []
+          snap.forEach( doc => {
+            this.localsteps.push(doc.data()) 
+          } )}
+        )
     },
+
+
     addStep: function(el) {
      this.parent.steps_ref.add({blueprint: this.parent.selected_blueprint.id,name: el.target.value})
      el.target.value = ""
