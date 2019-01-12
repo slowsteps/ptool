@@ -1,0 +1,21 @@
+* {
+  font-size: 14px;
+}
+
+#app {
+  font-family: sans-serif;
+}
+
+input {
+  padding: 6px;
+  margin-top: 6px;
+  display: block;
+}
+
+button {
+  background-color: white;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  padding: 6px;
+  border-radius: 6px;
+}

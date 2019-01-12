@@ -10,6 +10,10 @@
     <li v-for="step in steps">{{step.name}}</li>
     <input placeholder="add step" @keyup.enter="addStep($event)"/>
 
+
+    <steps v-bind:selected_blueprint="selected_blueprint"  v-bind:parent="this"   >steps</steps>
+    
+
   </div>
 
 
@@ -17,10 +21,13 @@
 
 <script>
 import firebase from 'firebase'
-
+import steps from './components/Steps'
 
 export default {
   name: 'app',
+  components: {
+    steps
+  },
   data: function() {
     return { 
       blueprints: [],
@@ -34,7 +41,7 @@ export default {
   methods: {
 
     addBlueprint: function(el) {
-      blueprints_ref.add({name:el.target.value})
+      this.blueprints_ref.add({name:el.target.value})
       el.target.value = ""
     },
     getSteps: function(blueprint) {
