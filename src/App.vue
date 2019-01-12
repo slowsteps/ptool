@@ -1,17 +1,14 @@
 <template>
 
-  <div id="app">
+  <div id="app" class="comp">
+    <h1>Main component</h1>
     <li v-for="blueprint in blueprints" @click="getSteps(blueprint)" >{{blueprint.name}}</li>
     <input placeholder="add blueprint" @keyup.enter="addBlueprint($event)"/>
     
     
-    <h2>{{selected_blueprint.name}}</h2>
-
-    <li v-for="step in steps">{{step.name}}</li>
-    <input placeholder="add step" @keyup.enter="addStep($event)"/>
 
 
-    <steps v-bind:selected_blueprint="selected_blueprint"  v-bind:parent="this"   >steps</steps>
+    <steps v-bind:parent="this">steps</steps>
     
 
   </div>
@@ -45,11 +42,7 @@ export default {
       el.target.value = ""
     },
     getSteps: function(blueprint) {
-      //TODO change into onSnapShot
-      console.log("getSteps" + blueprint.id)
       this.selected_blueprint = blueprint
-      this.steps = []
-      this.steps_ref.where("blueprint","==",blueprint.id).get().then( snap => { snap.forEach( doc => {this.steps.push(doc.data())} )})
     },
     addStep: function(el) {
      this.steps_ref.add({blueprint: this.selected_blueprint.id,name: el.target.value})
@@ -73,7 +66,7 @@ export default {
 
       firebase.initializeApp(config)
      
-      //const db = firebase.firestore()
+
       this.db = firebase.firestore()
 
 
@@ -122,13 +115,18 @@ export default {
   font-size: 14px;
 }
 
+h1 {
+  font-size: 18px;
+}
+
 #app {
   font-family: sans-serif;
 }
 
 input {
   padding: 6px;
-  margin-top: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   display: block;
 }
 
@@ -139,5 +137,11 @@ button {
   padding: 6px;
   border-radius: 6px;
 }
+
+.comp {
+  border: 1px solid lightgrey;
+  padding: 6px;
+}
+
 
 </style>
