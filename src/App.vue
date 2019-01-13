@@ -8,7 +8,7 @@
     
 
 
-    <steps v-bind:parent="this">steps</steps>
+    <steps v-bind:blueprint="selected_blueprint">steps</steps>
     
 
   </div>
@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import steps from './components/Steps'
+import {blueprints_ref} from './components/settings.js'
 
 export default {
   name: 'app',
@@ -28,61 +28,32 @@ export default {
   data: function() {
     return { 
       blueprints: [],
-      db: "",
-      blueprints_ref: "",
-      steps_ref: "",
-      steps: [],
-      selected_blueprint: ""
+      //db: "",
+      //blueprints_ref: "",
+      //steps_ref: "",
+      //steps: [],
+      selected_blueprint: {}
     }
   },
   methods: {
 
     addBlueprint: function(el) {
-      this.blueprints_ref.add({name:el.target.value})
+      blueprints_ref.add({name:el.target.value})
       el.target.value = ""
     },
     getSteps: function(blueprint) {
       this.selected_blueprint = blueprint
-    },
-    addStep: function(el) {
-     this.steps_ref.add({blueprint: this.selected_blueprint.id,name: el.target.value})
-     el.target.value = ""
     }
-
   },
   created: function() {
-
-    
-    //Database setup
-    //TODO move to seperate file
-    const config = {
-        apiKey: "AIzaSyC58pRaWYD7TkA9cgXy9Bp17Njvi_5hm6c",
-        authDomain: "ptool-01.firebaseapp.com",
-        databaseURL: "https://ptool-01.firebaseio.com",
-        projectId: "ptool-01",
-        storageBucket: "ptool-01.appspot.com",
-        messagingSenderId: "833427644098"
-      }
-
-      firebase.initializeApp(config)
-     
-
-      this.db = firebase.firestore()
-
-
-      this.db.settings({
-        timestampsInSnapshots: true
-      })
-
-      this.blueprints_ref = this.db.collection("blueprints")
-      this.steps_ref = this.db.collection("steps")
-
 
       //TODO check if this is now global and if so change
       let varscope = this
 
+
+      //TODO move into blueprints component
       //realtime triggered updates
-      this.db.collection("blueprints").onSnapshot(function(snap){
+      blueprints_ref.onSnapshot(function(snap){
         console.log("change detected")
         varscope.blueprints = []
         snap.forEach( doc => {
@@ -93,6 +64,8 @@ export default {
           varscope.blueprints.push(obj)
         
         })
+        
+        
         
       })
 
