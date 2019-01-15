@@ -11,6 +11,8 @@
     <steps v-bind:blueprint="selected_blueprint">steps</steps>
     
 
+    <blueprints>blueprints</blueprints>
+
   </div>
 
 
@@ -18,20 +20,21 @@
 
 <script>
 import steps from './components/Steps'
+import blueprints from './components/Blueprints'
 import {blueprints_ref} from './components/settings.js'
+import VueRouter from 'vue-router'
+
+
 
 export default {
   name: 'app',
   components: {
-    steps
+    steps,
+    blueprints
   },
   data: function() {
     return { 
       blueprints: [],
-      //db: "",
-      //blueprints_ref: "",
-      //steps_ref: "",
-      //steps: [],
       selected_blueprint: {}
     }
   },
@@ -46,6 +49,9 @@ export default {
     }
   },
   created: function() {
+
+
+
 
       //TODO check if this is now global and if so change
       let varscope = this
